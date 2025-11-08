@@ -9,6 +9,7 @@ import (
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
 	"github.com/hajimehoshi/ebiten/v2/text/v2"
+	"github.com/hajimehoshi/ebiten/v2/vector"
 	"golang.org/x/image/font/gofont/goregular"
 )
 
@@ -51,7 +52,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	centerY := float64(screenHeight) / 2
 
 	// "Hello, World!" のテキストを球体表面に配置
-	textStr := "takeyama*fumino*takeyama*fumino*takeyama*fumino*"
+	textStr := "Hello, World!"
 	numPoints := len(textStr)
 
 	for i := range numPoints {
@@ -114,7 +115,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 					uint8(200 * scale),
 					0x80,
 				}
-				ebitenutil.DrawRect(screen, screenX-1, screenY-1, 2, 2, col)
+				vector.DrawFilledRect(screen, float32(screenX-1), float32(screenY-1), 2, 2, col, false)
 			}
 		}
 	}
