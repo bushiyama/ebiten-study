@@ -7,7 +7,6 @@ import (
 	"math"
 
 	"github.com/hajimehoshi/ebiten/v2"
-	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
 	"github.com/hajimehoshi/ebiten/v2/text/v2"
 	"github.com/hajimehoshi/ebiten/v2/vector"
 	"golang.org/x/image/font/gofont/goregular"
@@ -115,12 +114,10 @@ func (g *Game) Draw(screen *ebiten.Image) {
 					uint8(200 * scale),
 					0x80,
 				}
-				vector.DrawFilledRect(screen, float32(screenX-1), float32(screenY-1), 2, 2, col, false)
+				vector.FillRect(screen, float32(screenX-1), float32(screenY-1), 2, 2, col, false)
 			}
 		}
 	}
-
-	ebitenutil.DebugPrint(screen, "3D Rotating Sphere with Text")
 }
 
 func (g *Game) Layout(outsideWidth, outsideHeight int) (int, int) {
