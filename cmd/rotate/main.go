@@ -18,7 +18,9 @@ const (
 )
 
 var (
-	faceSource *text.GoTextFaceSource
+	faceSource        *text.GoTextFaceSource
+	textRotationDir   = 1.0  // テキストの回転方向（1.0: 時計回り, -1.0: 反時計回り）
+	circleRotationDir = -1.0 // 円周の回転方向（1.0: 時計回り, -1.0: 反時計回り）
 )
 
 type Game struct {
@@ -49,7 +51,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	centerY := float64(screenHeight) / 2
 
 	// "Hello, World!" のテキストを球体表面に配置
-	textStr := "Hello, World!"
+	textStr := "takeyama*fumino*takeyama*fumino*takeyama*fumino*"
 	numPoints := len(textStr)
 
 	for i := range numPoints {
@@ -58,9 +60,9 @@ func (g *Game) Draw(screen *ebiten.Image) {
 		phi := math.Pi / 3 // 赤道付近に配置
 
 		// 3D座標
-		x := radius * math.Sin(phi) * math.Cos(theta+g.angle)
+		x := radius * math.Sin(phi) * math.Cos(theta+g.angle*textRotationDir)
 		y := radius * math.Cos(phi)
-		z := radius * math.Sin(phi) * math.Sin(theta+g.angle)
+		z := radius * math.Sin(phi) * math.Sin(theta+g.angle*textRotationDir)
 
 		// Z座標による遠近感（奥にあるものは小さく）
 		scale := 1.0 / (1.0 + z/300.0)
@@ -92,15 +94,15 @@ func (g *Game) Draw(screen *ebiten.Image) {
 		text.Draw(screen, char, face, op)
 	}
 
-	// 追加の円周も描画して球体感を出す
+	// 追加の円周も描画して球体感を出す（逆回転）
 	for lat := 0; lat < 6; lat++ {
 		phi := math.Pi * float64(lat) / 5
 		for lng := 0; lng < 50; lng++ {
 			theta := 2 * math.Pi * float64(lng) / 50
 
-			x := radius * math.Sin(phi) * math.Cos(theta+g.angle)
+			x := radius * math.Sin(phi) * math.Cos(theta+g.angle*circleRotationDir)
 			y := radius * math.Cos(phi)
-			z := radius * math.Sin(phi) * math.Sin(theta+g.angle)
+			z := radius * math.Sin(phi) * math.Sin(theta+g.angle*circleRotationDir)
 
 			scale := 1.0 / (1.0 + z/300.0)
 			if z > 0 { // 手前側のみ描画
